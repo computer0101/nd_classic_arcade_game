@@ -1,10 +1,10 @@
 // Enemies our player must avoid
-var Enemy = function(enemyNum) {
+var Enemy = function(enemyNum) { //enemy number: to make sure on which line the bug should be first rendered
     // Variables applied to each of our instances go here,
     // we've provided one for you to get started
-    this.x = Math.random() * (300 - 2) + 5;
-    this.speed = 0;
-    this.y =  enemyNum === 1 ? 55 : (enemyNum === 2 ? 140 : 225);
+    this.x = Math.random() * (300 - 2) + 5; //During first page load enemy is present anywhere on x-axis on canvas
+    this.speed = 0; // keeps track of current speed.
+    this.y =  enemyNum === 1 ? 55 : (enemyNum === 2 ? 140 : 225); //logic for which line the enemy should be on
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
     this.sprite = 'images/enemy-bug.png';
@@ -16,14 +16,11 @@ Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
-    if(this.speed === 0) {
-        this.speed = (Math.random() * 3) + 2;
-    }
-    if(this.x >= 500) {
-        this.speed = (Math.random() * 3) + 2;
+    if(this.x >= 500 || this.speed === 0) {
+        this.speed = (Math.random() * 3) + 2; //changes the speed of enemy after it leaves the canvas
         this.x = -200;
     }else {
-        this.x = Math.floor((Math.random() * dt) + this.speed) + this.x;
+        this.x = Math.floor((Math.random() * dt) + this.speed) + this.x; //logic for moving enemies
     }
 };
 
@@ -36,19 +33,22 @@ Enemy.prototype.render = function() {
 // This class requires an update(), render() and
 // a handleInput() method.
 var Player = function() {
+    //initial position of character
     this.x = 200;
     this.y = 395;
     this.sprite = 'images/char-boy.png';
 };
 
 Player.prototype.update = function() {
-    for(i=0;i<allEnemies.length; i++){
+    //collision logic
+    for(i=0; i < allEnemies.length; i++){
         var temp = Math.ceil(allEnemies[i].x);
         if(temp >= this.x - 90 && temp <= this.x + 80 && this.y === allEnemies[i].y) {
             this.x = 200;
             this.y = 395;
         }
     }
+    //win logic. once user wins position will reset.
     if(this.y === -30) {
         setTimeout(() => {
             this.x = 200;
@@ -62,6 +62,7 @@ Player.prototype.render = function(place) {
 }
 
 Player.prototype.handleInput = function(key) { 
+    //logic for key inputs
     if(key === 'up') {
         this.y = this.y === -30 ? this.y : this.y - 85;
         this.update();
