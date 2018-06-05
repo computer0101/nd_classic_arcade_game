@@ -55,11 +55,11 @@ Player.prototype.update = function() {
             this.y = 395;                
         }, 800);
     }
-}
+};
 
 Player.prototype.render = function(place) {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-}
+};
 
 Player.prototype.handleInput = function(key) { 
     //logic for key inputs
@@ -73,7 +73,7 @@ Player.prototype.handleInput = function(key) {
     } else if(key === 'left') {
         this.x = this.x === 0 ? 400 : this.x - 100;
     }
-}
+};
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
